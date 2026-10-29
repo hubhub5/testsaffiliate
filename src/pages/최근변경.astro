@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { tests, dot, u } from '../lib/data';
+const rows = tests.flatMap((t) => t.history.map((h) => ({ ...h, t }))).sort((a, b) => b.date.localeCompare(a.date) || b.t.id.localeCompare(a.t.id));
+---
+<Base title="최근 변경" current="최근 변경">
+  <main class="wrap page">
+    <div class="page-head">
+      <p class="kicker mono">CHANGES · {rows.length}</p>
+      <h1>최근 변경</h1>
+      <p>등재와 개정 기록.</p>
+    </div>
+    <div class="scroll-x"><table class="tbl list-tbl">
+      <thead><tr><th>날짜</th><th>문서</th><th>내용</th></tr></thead>
+      <tbody>{rows.map((r) => <tr><td class="mono">{dot(r.date)}</td><td><a href={u(`/t/${r.t.id}/`)}>{r.t.title}</a><small>{r.t.id}</small></td><td>{r.note}</td></tr>)}</tbody>
+    </table></div>
+  </main>
+</Base>

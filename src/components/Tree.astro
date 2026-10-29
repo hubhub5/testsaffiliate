@@ -1,0 +1,13 @@
+---
+import { categories, testsIn, catUrl, u } from '../lib/data';
+interface Props { current?: string }
+const { current } = Astro.props;
+---
+<aside class="doc-left tree">
+  {categories.map((c) => (
+    <>
+      <h3><a href={catUrl(c.name)}>{c.name}</a></h3>
+      {testsIn(c.name).map((t) => <a href={u(`/t/${t.id}/`)} aria-current={t.id === current ? 'page' : undefined}>{t.title}<span>{t.id}</span></a>)}
+    </>
+  ))}
+</aside>

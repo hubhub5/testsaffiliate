@@ -1,0 +1,17 @@
+{
+  "name": "small-moments",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "check": "node scripts/check-data.mjs && node scripts/lint-tone.mjs",
+    "dev": "astro dev",
+    "build": "npm run check && astro build && pagefind --site dist",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^5.18.2"
+  },
+  "devDependencies": {
+    "pagefind": "^1.5.2"
+  }
+}

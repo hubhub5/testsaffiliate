@@ -1,0 +1,174 @@
+---
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/doc.css';
+import '../styles/test.css';
+import { site } from '../config/site';
+import { tests, u } from '../lib/data';
+
+interface Props {
+  title?: string;
+  description?: string;
+  current?: string;
+  jsonld?: object;
+  noindex?: boolean;
+}
+const { title, description = site.description, current, jsonld, noindex } = Astro.props;
+const full = title ? `${title} — ${site.name}` : site.name;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const nav = [
+  ['분류', u('/분류/')],
+  ['전체 목록', u('/t/')],
+  ['최근 변경', u('/최근변경/')],
+  ['참고문헌', u('/참고문헌/')],
+  ['근거 등급', u('/근거등급/')],
+];
+const ids = JSON.stringify(tests.map((t) => t.id));
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{full}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {noindex && <meta name="robots" content="noindex" />}
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content={full} />
+  <meta property="og:description" content={description} />
+  <meta property="og:site_name" content={site.name} />
+  <meta property="og:locale" content="ko_KR" />
+  <meta name="theme-color" content="#fbfbf9" />
+  <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
+  <script is:inline>
+    try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body>
+  <header class="top">
+    <div class="top-in">
+      <a class="brand" href={u('/')}>{site.name}<small class="mono">since {site.since}</small></a>
+      <nav class="nav" id="nav">
+        {nav.map(([label, href]) => <a href={href} aria-current={current === label ? 'page' : undefined}>{label}</a>)}
+      </nav>
+      <div class="top-tools">
+        <button class="search-btn" id="open-search" type="button" aria-label="검색"><span>문서 검색</span><kbd>/</kbd></button>
+        <button class="theme-btn" id="theme" type="button" aria-label="밝기 전환">◐</button>
+        <button class="menu-btn" id="menu" type="button" aria-expanded="false" aria-controls="nav">메뉴</button>
+      </div>
+    </div>
+  </header>
+
+  <main data-pagefind-body={Astro.url.pathname.startsWith(u('/t/T-')) ? '' : undefined}>
+    <slot />
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <nav>
+        <a href={u('/about/')}>이 사전에 대해</a>
+        <a href={u('/근거등급/')}>근거 등급</a>
+        <a href={u('/disclosure/')}>제휴 고지</a>
+        <a href={u('/privacy/')}>개인정보처리방침</a>
+        <a href="#" id="random">임의 테스트 <span class="mono">R</span></a>
+      </nav>
+      <p>여기 있는 테스트는 일상의 습관을 돌아보기 위한 것이며 심리 검사나 진단이 아닙니다. 점수는 표준화되지 않았습니다.<br />
+      일부 도서 링크는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
+      <p class="mono">© {new Date().getFullYear()} {site.author} · {site.name}</p>
+    </div>
+  </footer>
+
+  <div class="search-ov" id="search" role="dialog" aria-modal="true" aria-label="문서 검색">
+    <div class="search-box">
+      <input id="q" type="search" placeholder="상황, 개념, 유형 이름을 검색" autocomplete="off" />
+      <div class="search-res" id="res"><div class="search-empty">예: 마침표, 카페, 칭찬, 문 잠금</div></div>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ ids }}>window.__ids = JSON.parse(ids);</script>
+  <script>
+    const ov = document.getElementById('search')!;
+    const q = document.getElementById('q') as HTMLInputElement;
+    const res = document.getElementById('res')!;
+    let pf: any = null;
+    let sel = -1;
+
+    async function loadPf() {
+      if (pf) return pf;
+      try {
+        const path = `${import.meta.env.BASE_URL}pagefind/pagefind.js`;
+        pf = await import(/* @vite-ignore */ path);
+        await pf.options({ excerptLength: 24, baseUrl: import.meta.env.BASE_URL });
+      } catch { pf = false; }
+      return pf;
+    }
+    function open() { ov.classList.add('open'); q.focus(); loadPf(); }
+    function close() { ov.classList.remove('open'); }
+    document.getElementById('open-search')!.addEventListener('click', open);
+    ov.addEventListener('click', (e) => { if (e.target === ov) close(); });
+
+    let timer: number | undefined;
+    q.addEventListener('input', () => {
+      clearTimeout(timer);
+      timer = window.setTimeout(run, 120);
+    });
+    async function run() {
+      const term = q.value.trim();
+      if (!term) { res.innerHTML = '<div class="search-empty">예: 마침표, 카페, 칭찬, 문 잠금</div>'; return; }
+      const p = await loadPf();
+      if (!p) { res.innerHTML = '<div class="search-empty">검색 색인은 빌드 후에 생성됩니다.</div>'; return; }
+      const r = await p.search(term);
+      const items = await Promise.all(r.results.slice(0, 10).map((x: any) => x.data()));
+      sel = -1;
+      res.innerHTML = items.length
+        ? items.map((d: any) => `<a href="${d.url}"><b>${d.meta.title.replace(/ — .*$/, '')}</b><p>${d.excerpt}</p></a>`).join('')
+        : '<div class="search-empty">맞는 문서가 없습니다. 다른 말로 찾아보세요.</div>';
+    }
+    q.addEventListener('keydown', (e) => {
+      const links = [...res.querySelectorAll('a')];
+      if (!links.length) return;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        sel = (sel + (e.key === 'ArrowDown' ? 1 : -1) + links.length) % links.length;
+        links.forEach((a, i) => a.classList.toggle('sel', i === sel));
+        links[sel].scrollIntoView({ block: 'nearest' });
+      } else if (e.key === 'Enter' && sel >= 0) {
+        location.href = links[sel].href;
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      const typing = (e.target as HTMLElement).closest('input, textarea, [contenteditable]');
+      if (e.key === 'Escape') close();
+      if (typing || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === '/') { e.preventDefault(); open(); }
+      if (e.key === 'r' || e.key === 'R') goRandom();
+    });
+    function goRandom() {
+      const ids: string[] = (window as any).__ids || [];
+      if (ids.length) location.href = `${import.meta.env.BASE_URL}t/${ids[Math.floor(Math.random() * ids.length)]}/`;
+    }
+    document.getElementById('random')!.addEventListener('click', (e) => { e.preventDefault(); goRandom(); });
+
+    document.getElementById('theme')!.addEventListener('click', () => {
+      const root = document.documentElement;
+      const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+      root.dataset.theme = dark ? 'light' : 'dark';
+      try { localStorage.setItem('theme', root.dataset.theme); } catch {}
+    });
+
+    const menu = document.getElementById('menu')!;
+    menu.addEventListener('click', () => {
+      const nav = document.getElementById('nav')!;
+      const o = nav.classList.toggle('open');
+      menu.setAttribute('aria-expanded', String(o));
+    });
+  </script>
+</body>
+</html>

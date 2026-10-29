@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import { sourceList, tests } from '../lib/data';
+---
+<Base title="참고문헌" current="참고문헌">
+  <main class="wrap page">
+    <div class="page-head">
+      <p class="kicker mono">REFERENCES · {sourceList.length}</p>
+      <h1>참고문헌</h1>
+      <p>저자순이 아니라 등록 키 순서입니다. 각 항목 아래에 이 문헌을 쓰는 테스트를 적었습니다.</p>
+    </div>
+    <ol class="refs prose" style="max-width:860px">
+      {sourceList.map(([id, s], i) => (
+        <li id={id}>
+          <span class="mono">{i + 1}</span>
+          <span>{s.au} ({s.y}). <span class="t">{s.t}</span>. <em>{s.in}</em>.
+            <span class="k"> · {s.k} · {tests.filter((t) => t.sources.includes(id)).map((t) => t.id).join(', ')}</span></span>
+        </li>
+      ))}
+    </ol>
+  </main>
+</Base>

@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import Grade from '../components/Grade.astro';
+import { tests, gradeLabel } from '../lib/data';
+import type { G } from '../lib/data';
+const desc: Record<G, string> = {
+  A: '여러 연구실에서 반복해 확인됐거나 메타분석이 있는 개념. 결과 문장에서 “~한다”로 씁니다.',
+  B: '통제된 실험이 한두 편 있거나 상관 연구가 꾸준히 같은 방향을 가리키는 개념. “~라는 연구가 있다”로 씁니다.',
+  C: '이론이나 임상 관찰에서 나왔고 일상 장면에 직접 적용한 연구는 적은 개념. “~라는 해석이 있다”로 씁니다.',
+  D: '연구에서 직접 나오지 않은 이 사전의 해석. “이 사전은 ~로 본다”로 씁니다.',
+};
+const gs: G[] = ['A', 'B', 'C', 'D'];
+---
+<Base title="근거 등급" current="근거 등급">
+  <main class="wrap page">
+    <div class="page-head">
+      <p class="kicker mono">GRADE</p>
+      <h1>근거 등급</h1>
+      <p>테스트가 기대는 개념이 얼마나 단단한지 표시합니다. 테스트 자체의 정확도가 아닙니다.</p>
+    </div>
+    <div class="scroll-x"><table class="tbl">
+      <thead><tr><th>등급</th><th>뜻</th><th>문장 수위</th><th>테스트</th></tr></thead>
+      <tbody>{gs.map((g) => <tr><td><Grade g={g} /></td><td>{gradeLabel[g]}</td><td>{desc[g]}</td><td class="mono">{tests.filter((t) => t.grade === g).length}</td></tr>)}</tbody>
+    </table></div>
+    <div class="prose">
+      <h2>섞여 있는 경우</h2>
+      <p>한 테스트 안에서 기반 개념은 B인데 유형 설명 일부는 이 사전의 해석인 경우가 많습니다. 테스트 머리의 등급은 기반 개념 기준이고, 유형 문서의 “한계” 칸에 해석이 섞인 부분을 적습니다.</p>
+    </div>
+  </main>
+</Base>

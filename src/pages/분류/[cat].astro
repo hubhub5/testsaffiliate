@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import TestBlock from '../../components/TestBlock.astro';
+import { categories, testsIn, u } from '../../lib/data';
+export function getStaticPaths() {
+  return categories.map((c) => ({ params: { cat: c.slug }, props: { c } }));
+}
+const { c } = Astro.props;
+const list = testsIn(c.name);
+---
+<Base title={c.name} current="분류">
+  <main class="wrap page">
+    <div class="page-head">
+      <p class="kicker mono"><a href={u('/분류/')}>CATEGORY</a><span>{list.length}건</span></p>
+      <h1>{c.name}</h1>
+      <p>{c.line}</p>
+    </div>
+    <div class="blocks">{list.map((t) => <TestBlock t={t} />)}</div>
+  </main>
+</Base>

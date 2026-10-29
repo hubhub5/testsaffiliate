@@ -1,0 +1,11 @@
+---
+import type { Test } from '../lib/data';
+import { typeKeys, u } from '../lib/data';
+interface Props { t: Test }
+const { t } = Astro.props;
+---
+<a class="block" href={u(`/t/${t.id}/`)}>
+  <span class="mono"><span>{t.id}</span><span>문항 {t.questions.length} · 유형 {typeKeys(t).length}</span></span>
+  <h3>{t.title}</h3>
+  <p>{t.scene}</p>
+</a>

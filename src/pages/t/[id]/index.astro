@@ -1,0 +1,87 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Grade from '../../../components/Grade.astro';
+import Tree from '../../../components/Tree.astro';
+import RightPanel from '../../../components/RightPanel.astro';
+import { tests, typeKeys, catUrl, dot, u } from '../../../lib/data';
+import type { Test } from '../../../lib/data';
+
+export function getStaticPaths() {
+  return tests.map((t) => ({ params: { id: t.id }, props: { t } }));
+}
+const { t } = Astro.props as { t: Test };
+const keys = typeKeys(t);
+---
+<Base title={t.title} description={`${t.scene} ${t.intro}`}>
+  <div class="wrap doc-grid">
+    <Tree current={t.id} />
+    <article>
+      <div class="doc-meta mono"><b>{t.id}</b><span>{t.cat}</span><span>등재 {dot(t.added)}</span><span>개정 {t.rev}</span><span>문항 {t.questions.length}</span><span>유형 {keys.length}</span></div>
+      <h1 class="doc-title">{t.title}</h1>
+      <div class="doc-crumb"><a href={catUrl(t.cat)}>{t.cat}</a></div>
+      <p class="doc-line">{t.scene}</p>
+
+      <div class="info">
+        <div class="row"><span>기반 개념</span><span>{t.concepts.join(' · ')}</span></div>
+        <div class="row"><span>보는 것</span><span class="tags">{t.tags.map((g) => <span class="tag">{g}</span>)}</span></div>
+        <div class="row"><span>근거 수준</span><span><Grade g={t.grade} long /></span></div>
+        <div class="row"><span>걸리는 시간</span><span class="mono">{t.minutes}분</span></div>
+        <div class="row"><span>나올 수 있는 유형</span><span>{keys.map((k, i) => <>{i > 0 && ' · '}<a class="wl" href={u(`/t/${t.id}/${k}/`)}>{t.types[k].name}</a></>)}</span></div>
+      </div>
+      <p style="margin-top:18px;font-size:14px;color:var(--ink-2)">{t.intro}</p>
+
+      <form class="quiz" id="quiz" data-id={t.id} data-keys={JSON.stringify(keys)} data-tiebreak={JSON.stringify(t.tiebreak)}>
+        <ol>
+          {t.questions.map((q, i) => (
+            <li class="qi" id={`q${i + 1}`}>
+              <div class="qh"><span class="mono">Q{String(i + 1).padStart(2, '0')}</span><p>{q.q}</p></div>
+              <div class="opts">
+                {q.a.map((a, j) => (
+                  <label class="opt"><input type="radio" name={`q${i}`} value={j} data-s={JSON.stringify(a.s)} required /><span>{a.t}</span></label>
+                ))}
+              </div>
+            </li>
+          ))}
+        </ol>
+        <div class="quiz-foot">
+          <span class="mono" id="left">남은 문항 {t.questions.length}</span>
+          <button class="go" type="submit" disabled>결과 보기</button>
+        </div>
+      </form>
+      <p class="disclaimer">가장 가까운 선택지를 고르면 됩니다. 정확히 맞는 답이 없으면 최근 한 달 동안 더 자주 한 쪽을 고르세요. 답은 서버로 보내지 않고, 결과 주소에 점수만 남습니다.</p>
+    </article>
+    <RightPanel t={t} />
+  </div>
+</Base>
+
+<script>
+  const form = document.getElementById('quiz') as HTMLFormElement;
+  const keys: string[] = JSON.parse(form.dataset.keys!);
+  const tiebreak: string[] = JSON.parse(form.dataset.tiebreak!);
+  const total = form.querySelectorAll('.qi').length;
+  const left = document.getElementById('left')!;
+  const go = form.querySelector('.go') as HTMLButtonElement;
+
+  form.addEventListener('change', (e) => {
+    const done = form.querySelectorAll('input:checked').length;
+    left.textContent = done === total ? '모두 답함' : `남은 문항 ${total - done}`;
+    go.disabled = done !== total;
+    const li = (e.target as HTMLElement).closest('.qi');
+    const next = li?.nextElementSibling as HTMLElement | null;
+    if (next && !next.querySelector('input:checked') && next.getBoundingClientRect().top > innerHeight * 0.7) {
+      next.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const sum: Record<string, number> = Object.fromEntries(keys.map((k) => [k, 0]));
+    form.querySelectorAll<HTMLInputElement>('input:checked').forEach((el) => {
+      const s: Record<string, number> = JSON.parse(el.dataset.s!);
+      for (const k in s) sum[k] += s[k];
+    });
+    const best = Math.max(...keys.map((k) => sum[k]));
+    const top = tiebreak.find((k) => sum[k] === best)!;
+    location.href = `${import.meta.env.BASE_URL}t/${form.dataset.id}/${top}/?s=${keys.map((k) => sum[k]).join(',')}`;
+  });
+</script>

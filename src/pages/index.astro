@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import TestBlock from '../components/TestBlock.astro';
+import { tests, categories, testsIn, catUrl, stats, dot, u } from '../lib/data';
+const s = stats();
+const recent = [...tests].sort((a, b) => b.added.localeCompare(a.added) || b.id.localeCompare(a.id)).slice(0, 6);
+---
+<Base>
+  <main class="wrap page">
+    <div class="page-head">
+      <p class="kicker mono"><span>INDEX</span><span>since 2026.10.27</span></p>
+      <h1>작은 순간 유형 사전</h1>
+      <p>카페에서 앉는 자리, 메시지 끝의 마침표, 좋은 노트의 첫 장. 큰 성격 대신 작은 순간에 하는 일로 생각과 행동의 경향을 본다.</p>
+    </div>
+    <button class="home-search" type="button" onclick="document.getElementById('open-search').click()"><span>상황이나 유형 이름으로 찾기</span><kbd>/</kbd></button>
+    <p class="home-stat mono"><span>테스트 <b>{s.tests}</b></span><span>유형 <b>{s.types}</b></span><span>문항 <b>{s.questions}</b></span><span>참고문헌 <b>{s.sources}</b></span><span>R 임의 테스트</span></p>
+
+    {categories.map((c, i) => (
+      <>
+        <div class="home-h"><span class="mono">{String(i + 1).padStart(2, '0')}</span><h2>{c.name}</h2><a href={catUrl(c.name)}>{testsIn(c.name).length}건</a></div>
+        <div class="blocks">{testsIn(c.name).map((t) => <TestBlock t={t} />)}</div>
+      </>
+    ))}
+
+    <div class="home-h"><span class="mono">--</span><h2>최근 등재</h2><a href={u('/최근변경/')}>전체</a></div>
+    <div class="scroll-x"><table class="tbl list-tbl">
+      <tbody>{recent.map((t) => <tr><td class="mono">{dot(t.added)}</td><td><a href={u(`/t/${t.id}/`)}>{t.title}</a><small>{t.cat} · {t.id}</small></td></tr>)}</tbody>
+    </table></div>
+  </main>
+</Base>

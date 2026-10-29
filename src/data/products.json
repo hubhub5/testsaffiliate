@@ -1,0 +1,68 @@
+{
+  "bk-places": { "kind": "책", "name": "공간이 사람을 움직인다", "by": "콜린 엘러드 · 문희경 옮김 · 더퀘스트", "query": "공간이 사람을 움직인다 콜린 엘러드", "link": "" },
+  "bk-malgeureut": { "kind": "책", "name": "말 그릇", "by": "김윤나 · 카시오페아", "query": "말 그릇 김윤나", "link": "" },
+  "bk-bird": { "kind": "책", "name": "쓰기의 감각", "by": "앤 라모트", "query": "쓰기의 감각 앤 라모트", "link": "" },
+  "bk-stolen": { "kind": "책", "name": "도둑맞은 집중력", "by": "요한 하리 · 김하현 옮김 · 어크로스", "query": "도둑맞은 집중력 요한 하리", "link": "" },
+  "bk-attached": { "kind": "책", "name": "그들이 그렇게 연애하는 까닭", "by": "아미르 레빈, 레이첼 헬러", "query": "그들이 그렇게 연애하는 까닭", "link": "" },
+  "bk-feelinggreat": { "kind": "책", "name": "필링 그레이트", "by": "데이비드 번스", "query": "필링 그레이트 데이비드 번스", "link": "" },
+  "bk-brainlock": { "kind": "책", "name": "강박에 빠진 뇌", "by": "제프리 슈워츠 · 이은진 옮김 · RHK", "query": "강박에 빠진 뇌 제프리 슈워츠", "link": "" },
+  "bk-drive": { "kind": "책", "name": "드라이브", "by": "다니엘 핑크", "query": "드라이브 다니엘 핑크", "link": "" },
+  "bk-procrast": { "kind": "책", "name": "미루기의 기술", "by": "존 페리 · 강유리 옮김 · 21세기북스", "query": "미루기의 기술 존 페리", "link": "" },
+  "bk-friends": { "kind": "책", "name": "프렌즈", "by": "로빈 던바 · 안진이 옮김 · 어크로스", "query": "프렌즈 로빈 던바", "link": "" },
+  "bk-malsense": { "kind": "책", "name": "말센스", "by": "셀레스트 헤들리 · 김성환 옮김 · 스몰빅라이프", "query": "말센스 셀레스트 헤들리", "link": "" },
+  "bk-thinking": { "kind": "책", "name": "생각에 관한 생각", "by": "대니얼 카너먼", "query": "생각에 관한 생각 카너먼", "link": "" },
+
+  "it-door-sensor": { "kind": "물건", "name": "문 열림 감지 센서", "by": "앱 연동, 열림·닫힘 기록", "query": "스마트 문열림센서 와이파이", "link": "" },
+  "it-checklist-board": { "kind": "물건", "name": "현관용 외출 체크 보드", "by": "슬라이드형 또는 자석형", "query": "외출 체크리스트 보드", "link": "" },
+  "it-gas-timer": { "kind": "물건", "name": "가스 자동 잠금 타이머", "by": "밸브에 씌우는 형태", "query": "가스 자동차단 타이머", "link": "" },
+
+  "it-earplug": { "kind": "물건", "name": "폼 이어플러그", "by": "소음 차단, 대용량", "query": "폼 이어플러그 대용량", "link": "" },
+  "it-privacy-film": { "kind": "물건", "name": "노트북 사생활 보호 필름", "by": "옆에서 화면이 어둡게 보임", "query": "노트북 사생활보호필름", "link": "" },
+  "it-cushion": { "kind": "물건", "name": "등받이 쿠션", "by": "의자 등 뒤를 채우는 형태", "query": "의자 등받이 쿠션", "link": "" },
+  "it-bookstand": { "kind": "물건", "name": "독서대", "by": "접이식, 휴대용", "query": "휴대용 접이식 독서대", "link": "" },
+  "it-noise-headphone": { "kind": "물건", "name": "노이즈 캔슬링 이어폰", "by": "주변 소리 듣기 기능 포함", "query": "노이즈캔슬링 무선이어폰", "link": "" },
+
+  "it-memo-pad": { "kind": "물건", "name": "손바닥 메모 수첩", "by": "줄 없는 무지", "query": "포켓 무지 메모수첩", "link": "" },
+  "it-postcard": { "kind": "물건", "name": "엽서 세트", "by": "무지 또는 사진 엽서", "query": "무지 엽서 세트", "link": "" },
+  "it-sticky": { "kind": "물건", "name": "투명 점착 메모지", "by": "책 위에 붙여 쓰는 형태", "query": "투명 포스트잇 메모지", "link": "" },
+  "it-typewriter-kb": { "kind": "물건", "name": "블루투스 미니 키보드", "by": "휴대폰과 연결", "query": "블루투스 미니 키보드 휴대폰", "link": "" },
+
+  "it-praise-note": { "kind": "물건", "name": "작은 링 노트", "by": "A6, 가로줄", "query": "A6 링노트", "link": "" },
+  "it-card-file": { "kind": "물건", "name": "인덱스 카드와 보관함", "by": "카드 한 장에 한 줄", "query": "인덱스카드 보관함", "link": "" },
+  "it-hourglass": { "kind": "물건", "name": "3분 모래시계", "by": "유리, 탁상용", "query": "3분 모래시계", "link": "" },
+
+  "it-kraft-note": { "kind": "물건", "name": "크래프트 연습장 묶음", "by": "10권 단위, 저가", "query": "크래프트 노트 10권", "link": "" },
+  "it-refill-note": { "kind": "물건", "name": "리필형 노트 커버", "by": "속지만 갈아 끼우는 형태", "query": "리필 노트 커버 속지", "link": "" },
+  "it-pencil": { "kind": "물건", "name": "연필과 지우개 세트", "by": "4B, 고무 지우개", "query": "4B 연필 세트", "link": "" },
+  "it-tear-pad": { "kind": "물건", "name": "뜯어 쓰는 떡메모지", "by": "100매 이상", "query": "떡메모지 무지", "link": "" },
+
+  "it-ssd": { "kind": "물건", "name": "휴대용 외장 SSD", "by": "1TB, USB-C", "query": "외장 SSD 1TB 휴대용", "link": "" },
+  "it-photo-printer": { "kind": "물건", "name": "포켓 포토 프린터", "by": "휴대폰 사진 인화", "query": "포토프린터 휴대용", "link": "" },
+  "it-album": { "kind": "물건", "name": "포켓 앨범", "by": "4x6 사진 100장", "query": "4x6 포켓앨범", "link": "" },
+  "it-recipe-book": { "kind": "물건", "name": "손으로 쓰는 레시피 노트", "by": "칸이 나뉜 형태", "query": "레시피 노트 기록", "link": "" },
+
+  "it-timelock": { "kind": "물건", "name": "타임락 보관함", "by": "정한 시간 동안 휴대폰을 잠금", "query": "타임락 박스 휴대폰", "link": "" },
+  "it-kitchen-timer": { "kind": "물건", "name": "주방 타이머", "by": "자석 부착, 버튼식", "query": "디지털 주방타이머 자석", "link": "" },
+  "it-hand-grip": { "kind": "물건", "name": "손 악력기", "by": "기다리는 동안 손에 쥐는 것", "query": "악력기 손가락", "link": "" },
+  "it-walk-counter": { "kind": "물건", "name": "만보기", "by": "클립형", "query": "클립형 만보기", "link": "" },
+
+  "it-pocket-book": { "kind": "물건", "name": "문고판 단편집", "by": "주머니에 들어가는 크기", "query": "문고본 단편소설", "link": "" },
+  "it-puzzle-book": { "kind": "물건", "name": "포켓 스도쿠 책", "by": "줄 서 있는 동안 몇 칸", "query": "포켓 스도쿠", "link": "" },
+  "it-watch": { "kind": "물건", "name": "아날로그 손목시계", "by": "숫자판이 큰 것", "query": "심플 아날로그 손목시계", "link": "" },
+
+  "it-paper-checklist": { "kind": "물건", "name": "주간 체크리스트 패드", "by": "알림 없는 종이", "query": "주간 체크리스트 메모패드", "link": "" },
+  "it-dice": { "kind": "물건", "name": "주사위 세트", "by": "할 일 순서를 맡기는 용도", "query": "주사위 세트", "link": "" },
+  "it-whiteboard": { "kind": "물건", "name": "미니 화이트보드", "by": "탁상용", "query": "탁상용 미니 화이트보드", "link": "" },
+
+  "it-visual-timer": { "kind": "물건", "name": "비주얼 타이머", "by": "남은 시간을 색 면적으로 보여 줌", "query": "비주얼 타이머 집중", "link": "" },
+  "it-desk-tray": { "kind": "물건", "name": "책상 서류 트레이", "by": "2단, 쌓아 두는 칸", "query": "책상 서류트레이 2단", "link": "" },
+  "it-snack-box": { "kind": "물건", "name": "1회분 견과 세트", "by": "소포장", "query": "하루견과 소포장", "link": "" },
+
+  "it-stamps": { "kind": "물건", "name": "우표와 봉투 세트", "by": "편지지 포함", "query": "편지지 봉투 세트", "link": "" },
+  "it-calendar": { "kind": "물건", "name": "벽걸이 달력", "by": "날짜 칸이 큰 것", "query": "벽걸이 달력 메모형", "link": "" },
+  "it-gift-small": { "kind": "물건", "name": "작은 드립백 커피 세트", "by": "보내기 쉬운 크기", "query": "드립백 커피 선물세트", "link": "" },
+
+  "it-question-cards": { "kind": "물건", "name": "대화 질문 카드", "by": "한 장에 질문 하나", "query": "대화카드 질문카드", "link": "" },
+  "it-wristwatch-vib": { "kind": "물건", "name": "진동 알림 스마트밴드", "by": "정한 시각에 손목 진동", "query": "스마트밴드 진동알림", "link": "" },
+  "it-thermos": { "kind": "물건", "name": "작은 보온병", "by": "300ml 내외", "query": "미니 보온병 300ml", "link": "" }
+}

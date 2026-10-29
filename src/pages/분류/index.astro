@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import { categories, testsIn, catUrl } from '../../lib/data';
+---
+<Base title="분류" current="분류">
+  <main class="wrap page">
+    <div class="page-head">
+      <p class="kicker mono">CATEGORY · {categories.length}</p>
+      <h1>분류</h1>
+      <p>상황이 일어나는 자리에 따라 나눴습니다. 한 테스트는 한 분류에만 들어갑니다.</p>
+    </div>
+    <div class="blocks">
+      {categories.map((c, i) => (
+        <a class="block" href={catUrl(c.name)}>
+          <span class="mono"><span>C-{String(i + 1).padStart(2, '0')}</span><span>{testsIn(c.name).length}건</span></span>
+          <h3>{c.name}</h3>
+          <p>{c.line}</p>
+        </a>
+      ))}
+    </div>
+  </main>
+</Base>

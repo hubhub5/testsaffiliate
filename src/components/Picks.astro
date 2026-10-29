@@ -1,0 +1,24 @@
+---
+import type { Pick } from '../lib/data';
+import { productById, productHref } from '../lib/data';
+interface Props { picks: Pick[] }
+const { picks } = Astro.props;
+const dev = import.meta.env.DEV;
+---
+<p class="disclose">쿠팡 파트너스 활동의 일환으로, 아래 링크로 구매하면 이 사전이 일정액의 수수료를 받습니다. 가격은 같습니다.</p>
+<div class="books">
+  {picks.map((pk) => {
+    const p = productById(pk.id);
+    return (
+      <div class={`book${p.kind === '물건' ? ' thing' : ''}`}>
+        <span class="spine mono">{p.kind === '책' ? p.name : '물건'}</span>
+        <div>
+          <b>{p.kind === '책' ? `『${p.name}』` : p.name}{dev && !p.link && <span class="unset">링크 미설정</span>}</b>
+          {p.by && <small>{p.by}</small>}
+          <span class="why">{pk.why}</span>
+        </div>
+        <a class="go" href={productHref(p)} target="_blank" rel="sponsored nofollow noopener">쿠팡에서 보기</a>
+      </div>
+    );
+  })}
+</div>

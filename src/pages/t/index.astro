@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import Grade from '../../components/Grade.astro';
+import { tests, typeKeys, u } from '../../lib/data';
+---
+<Base title="전체 목록" current="전체 목록">
+  <main class="wrap page">
+    <div class="page-head">
+      <p class="kicker mono">LIST · {tests.length}건</p>
+      <h1>전체 목록</h1>
+      <p>번호순. 유형 이름을 누르면 결과 문서로 바로 갑니다.</p>
+    </div>
+    <div class="scroll-x"><table class="tbl list-tbl">
+      <thead><tr><th>번호</th><th>테스트</th><th>유형</th><th>근거</th></tr></thead>
+      <tbody>{tests.map((t) => (
+        <tr>
+          <td class="mono">{t.id}</td>
+          <td><a href={u(`/t/${t.id}/`)}>{t.title}</a><small>{t.cat}</small></td>
+          <td style="font-size:13px">{typeKeys(t).map((k, i) => <>{i > 0 && ' · '}<a class="wl" style="font-weight:400" href={u(`/t/${t.id}/${k}/`)}>{t.types[k].name}</a></>)}</td>
+          <td><Grade g={t.grade} /></td>
+        </tr>
+      ))}</tbody>
+    </table></div>
+  </main>
+</Base>

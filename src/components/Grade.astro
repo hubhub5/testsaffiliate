@@ -1,0 +1,7 @@
+---
+import { gradeLabel, u } from '../lib/data';
+interface Props { g: 'A' | 'B' | 'C' | 'D'; long?: boolean }
+const { g, long } = Astro.props;
+const label = gradeLabel[g];
+---
+<a class="grade" data-g={g} href={u('/근거등급/')} title={`근거 등급 ${g}: ${label}`}><i></i>{g}{long && <span class="mute">&nbsp;{label}</span>}</a>

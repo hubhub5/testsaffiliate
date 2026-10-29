@@ -1,0 +1,46 @@
+@font-face { font-family: 'NanumSquareNeo'; font-weight: 300; font-display: swap; src: url(https://cdn.jsdelivr.net/gh/eunchurn/NanumSquareNeo@0.0.6/woff2/NanumSquareNeoTTF-aLt.woff2) format('woff2'); }
+@font-face { font-family: 'NanumSquareNeo'; font-weight: 400; font-display: swap; src: url(https://cdn.jsdelivr.net/gh/eunchurn/NanumSquareNeo@0.0.6/woff2/NanumSquareNeoTTF-bRg.woff2) format('woff2'); }
+@font-face { font-family: 'NanumSquareNeo'; font-weight: 700; font-display: swap; src: url(https://cdn.jsdelivr.net/gh/eunchurn/NanumSquareNeo@0.0.6/woff2/NanumSquareNeoTTF-cBd.woff2) format('woff2'); }
+@font-face { font-family: 'NanumSquareNeo'; font-weight: 800; font-display: swap; src: url(https://cdn.jsdelivr.net/gh/eunchurn/NanumSquareNeo@0.0.6/woff2/NanumSquareNeoTTF-dEb.woff2) format('woff2'); }
+
+:root {
+  --bg: #fbfbf9;
+  --paper: #ffffff;
+  --ink: #1a1a1a;
+  --ink-2: #4a4a47;
+  --mute: #8c8c88;
+  --line: #e4e4e0;
+  --line-2: #d2d2cc;
+  --tint: #f2f2ee;
+  --accent: #f2c300;
+  --accent-ink: #6b5600;
+
+  --g-a: #1a1a1a;
+  --g-b: #5a5a56;
+  --g-c: #9a9a94;
+  --g-d: #c8c8c2;
+
+  --sans: 'NanumSquareNeo', 'NanumSquare', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --track: -0.07em;
+
+  --col: 720px;
+  --wide: 1240px;
+  --gutter: 16px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #121211; --paper: #181817; --ink: #ebebe6; --ink-2: #b9b9b3; --mute: #85857f;
+    --line: #2a2a28; --line-2: #3a3a37; --tint: #1f1f1d; --accent: #f2c300; --accent-ink: #f2c300;
+    --g-a: #ebebe6; --g-b: #a5a59f; --g-c: #6f6f6a; --g-d: #45453f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --bg: #121211; --paper: #181817; --ink: #ebebe6; --ink-2: #b9b9b3; --mute: #85857f;
+  --line: #2a2a28; --line-2: #3a3a37; --tint: #1f1f1d; --accent: #f2c300; --accent-ink: #f2c300;
+  --g-a: #ebebe6; --g-b: #a5a59f; --g-c: #6f6f6a; --g-d: #45453f;
+  color-scheme: dark;
+}

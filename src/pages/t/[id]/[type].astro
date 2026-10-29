@@ -1,0 +1,127 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Sec from '../../../components/Sec.astro';
+import Grade from '../../../components/Grade.astro';
+import Tree from '../../../components/Tree.astro';
+import RightPanel from '../../../components/RightPanel.astro';
+import Picks from '../../../components/Picks.astro';
+import { tests, typeKeys, catUrl, dot, u } from '../../../lib/data';
+import type { Test } from '../../../lib/data';
+
+export function getStaticPaths() {
+  return tests.flatMap((t) => typeKeys(t).map((k) => ({ params: { id: t.id, type: k }, props: { t, k } })));
+}
+const { t, k } = Astro.props as { t: Test; k: string };
+const d = t.types[k];
+const keys = typeKeys(t);
+const flow: [string, string][] = [
+  ['계기', d.flow.trigger], ['첫 해석', d.flow.read], ['하는 일', d.flow.act], ['꺾이는 지점', d.flow.break], ['남는 것', d.flow.residue],
+];
+const toc: [string, string, string][] = [
+  ['01', 'says', '이런 말로 나타남'], ['02', 'flow', '흐름'], ['03', 'does', '이 경향이 하는 일'],
+  ['04', 'small', '작게 바꿔보기'], ['05', 'picks', '곁에 두면 좋은 것'], ['06', 'others', '다른 유형'], ['07', 'limits', '한계'],
+];
+---
+<Base title={`${d.name} · ${t.title}`} description={d.line}>
+  <div class="wrap doc-grid">
+    <Tree current={t.id} />
+    <article>
+      <div class="doc-meta mono"><b>{t.id}-{k.toUpperCase()}</b><span>{t.cat}</span><span>등재 {dot(t.added)}</span><span>개정 {t.rev}</span></div>
+      <h1 class="doc-title">{d.name}</h1>
+      <div class="doc-crumb"><a href={catUrl(t.cat)}>{t.cat}</a> / <a href={u(`/t/${t.id}/`)}>{t.title}</a></div>
+      <p class="doc-line">{d.line}</p>
+
+      <div class="bars" id="bars" hidden data-keys={JSON.stringify(keys)} data-me={k}>
+        <div class="bh mono"><span>내 응답의 경향</span><span>점수</span></div>
+        {keys.map((x) => (
+          <div class={`bar${x === k ? ' me' : ''}`} data-k={x}><a href={u(`/t/${t.id}/${x}/`)}>{t.types[x].name}</a><span class="track"><i style="width:0"></i></span><span class="mono">0</span></div>
+        ))}
+        <a class="retry" href={u(`/t/${t.id}/`)}>다시 풀기</a>
+      </div>
+
+      <div class="info">
+        <div class="row"><span>테스트</span><span><a class="wl" href={u(`/t/${t.id}/`)}>{t.title}</a></span></div>
+        <div class="row"><span>기반 개념</span><span>{t.concepts.join(' · ')}</span></div>
+        <div class="row"><span>보는 것</span><span class="tags">{t.tags.map((g, i) => <span class={`tag${i === 0 ? ' on' : ''}`}>{g}</span>)}</span></div>
+        <div class="row"><span>근거 수준</span><span><Grade g={t.grade} long /></span></div>
+      </div>
+
+      <Sec n="01" id="says" title="이런 말로 나타남">
+        <div class="says">{d.says.map((s) => <div class="say"><span>속말</span><q>{s}</q></div>)}</div>
+      </Sec>
+
+      <Sec n="02" id="flow" title="흐름">
+        <ol class="flow">{flow.map(([a, b]) => <li class={a === '꺾이는 지점' ? 'break' : ''}><span>{a}</span><p>{b}</p></li>)}</ol>
+      </Sec>
+
+      <Sec n="03" id="does" title="이 경향이 하는 일">
+        <div class="two">
+          <div class="note-box"><h3>지켜 주는 것</h3><p>{d.keeps}</p></div>
+          <div class="note-box"><h3>치르는 비용</h3><p>{d.costs}</p></div>
+        </div>
+      </Sec>
+
+      <Sec n="04" id="small" title="작게 바꿔보기" note="체크는 이 기기에만 저장">
+        <div class="small" data-key={`${t.id}-${k}`}>
+          {([['오늘', d.small.today], ['이번 주', d.small.week], ['한 달', d.small.month]] as [string, string][]).map(([a, b], i) => (
+            <label><span class="hd"><input type="checkbox" data-i={i} /><span class="mono">{a}</span></span><p>{b}</p></label>
+          ))}
+        </div>
+      </Sec>
+
+      <Sec n="05" id="picks" title="곁에 두면 좋은 것" note="책 1 · 물건 1">
+        <Picks picks={d.picks} />
+      </Sec>
+
+      <Sec n="06" id="others" title="다른 유형">
+        <div class="blocks">
+          {keys.map((x) => (
+            <a class="block" href={u(`/t/${t.id}/${x}/`)} aria-current={x === k ? 'page' : undefined}>
+              <span class="mono"><span>{t.id}-{x.toUpperCase()}</span><span>{x === k ? '지금 문서' : ''}</span></span>
+              <h3>{t.types[x].name}</h3>
+              <p>{t.types[x].line}</p>
+            </a>
+          ))}
+        </div>
+      </Sec>
+
+      <Sec n="07" id="limits" title="한계">
+        <div class="two">
+          <div class="note-box"><h3>이 유형 설명의 한계</h3><p>{d.limits}</p></div>
+          <div class="note-box"><h3>이 테스트의 한계</h3><p>문항과 점수는 이 사전이 만든 것이고 표준화된 척도가 아닙니다. 근거 등급은 기반 개념에 대한 것이며 이 테스트의 정확도를 뜻하지 않습니다.</p></div>
+        </div>
+      </Sec>
+    </article>
+    <RightPanel t={t} toc={toc} />
+  </div>
+</Base>
+
+<script>
+  const bars = document.getElementById('bars') as HTMLElement;
+  const raw = new URLSearchParams(location.search).get('s');
+  const keys: string[] = JSON.parse(bars.dataset.keys!);
+  const nums = raw ? raw.split(',').map(Number) : [];
+  if (nums.length === keys.length && nums.every((n) => Number.isFinite(n) && n >= 0)) {
+    const max = Math.max(1, ...nums);
+    keys.forEach((k, i) => {
+      const row = bars.querySelector<HTMLElement>(`.bar[data-k="${k}"]`)!;
+      row.querySelector('i')!.style.width = `${(nums[i] / max) * 100}%`;
+      row.querySelector('.mono')!.textContent = String(nums[i]);
+    });
+    bars.hidden = false;
+  }
+
+  document.querySelectorAll<HTMLElement>('.small[data-key]').forEach((box) => {
+    const key = 'small:' + box.dataset.key;
+    let saved: number[] = [];
+    try { saved = JSON.parse(localStorage.getItem(key) || '[]'); } catch {}
+    const inputs = [...box.querySelectorAll<HTMLInputElement>('input')];
+    inputs.forEach((el) => {
+      el.checked = saved.includes(Number(el.dataset.i));
+      el.addEventListener('change', () => {
+        const on = inputs.filter((x) => x.checked).map((x) => Number(x.dataset.i));
+        try { localStorage.setItem(key, JSON.stringify(on)); } catch {}
+      });
+    });
+  });
+</script>

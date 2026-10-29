@@ -1,0 +1,23 @@
+---
+import type { Test } from '../lib/data';
+import { testById, sourceById, dot, u } from '../lib/data';
+interface Props { t: Test; toc?: [string, string, string][] }
+const { t, toc = [] } = Astro.props;
+const linked = t.linked.map(testById).filter(Boolean);
+---
+<aside class="doc-right">
+  {toc.length > 0 && (
+    <nav class="panel toc"><h3><span>목차</span></h3>{toc.map(([n, id, label]) => <a href={`#${id}`}><span class="mono">{n}</span>{label}</a>)}</nav>
+  )}
+  {linked.length > 0 && (
+    <div class="panel"><h3><span>연결 테스트</span><span class="mono">{linked.length}</span></h3>
+      <ul>{linked.map((l) => <li><span class="mono">{l!.id}</span><a class="wl" href={u(`/t/${l!.id}/`)}>{l!.title}</a></li>)}</ul>
+    </div>
+  )}
+  <div class="panel"><h3><span>참고문헌</span><span class="mono">{t.sources.length}</span></h3>
+    <ul>{t.sources.map((id) => { const s = sourceById(id); return <li><span class="mono">{s.y}</span><a class="wl" href={u(`/참고문헌/#${id}`)}>{s.au.split(',')[0]} · {s.k}</a></li>; })}</ul>
+  </div>
+  <div class="panel"><h3><span>문서 이력</span><span class="mono">개정 {t.rev}</span></h3>
+    <ul class="history">{t.history.map((h) => <li><span class="mono">{dot(h.date)}</span><span>{h.note}</span></li>)}</ul>
+  </div>
+</aside>
